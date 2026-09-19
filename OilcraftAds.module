@@ -1,24 +1,30 @@
 #!name=Oilcraft 视频净化
-#!desc=Oilcraft（瓜子系换皮）视频 App 去广告：开屏/弹窗/横幅/播放页/评论区/悬浮广告
+#!desc=Oilcraft（瓜子系换皮）视频 App 去广告：开屏/弹窗/横幅/播放页/评论区/悬浮广告 + 腾讯广告SDK
 #!author=浮浮酱（基于 HAR 抓包分析）
-#!note=广告接口加密，采用 reject-dict 直接拦截返回空 JSON，无需解密
-#!updated=2026-09-19
+#!note=广告接口加密且为 POST 请求，采用 http-response 返回空 JSON + 拦截腾讯广告SDK
+#!updated=2026-09-19 v2
+
+[Script]
+# 广告接口返回空 JSON（覆盖 POST/GET）
+oilcraft_ad_0 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/activityInfo$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_1 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/barsPlayAdInfo$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_2 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/barsUserAdInfo$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_3 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/noticeInfo$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_4 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/playAdInfo$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_5 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/skitAdInfo$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_6 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/splashInfo$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_7 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/vajraInfo$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_8 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/ad\/config$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_9 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Config\/getVestPkgGuide$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_10 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/IndexList\/homeFloatAd$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_11 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/IndexPlay\/vodAdvertisement$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
+oilcraft_ad_12 = type=http-response,pattern=^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Resource\/CommentAd\/show$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/empty_json.js,requires-body=true
 
 [Rule]
-# 广告接口直接拒绝（返回空 JSON，App 无法解析则跳过广告）
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/activityInfo$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/barsPlayAdInfo$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/barsUserAdInfo$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/noticeInfo$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/playAdInfo$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/skitAdInfo$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/splashInfo$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/vajraInfo$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/ad\/config$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Config\/getVestPkgGuide$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/IndexList\/homeFloatAd$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/IndexPlay\/vodAdvertisement$",REJECT-DICT
-URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Resource\/CommentAd\/show$",REJECT-DICT
+# 腾讯广告联盟 SDK（GDT）
+DOMAIN,sdk.e.qq.com,REJECT
+DOMAIN,mi.gdt.qq.com,REJECT
+DOMAIN-SUFFIX,gdt.qq.com,REJECT
 
 [MITM]
 hostname = %APPEND% api.7gmsut2m.com, api.gq89em.com, api.r2uhs2.com, api.xkpcth.com, haiwaiapi.1fc8ab0.com, rg.w57cy8y.com, sdapi.gmcztd.com, www.emw5es6.com
