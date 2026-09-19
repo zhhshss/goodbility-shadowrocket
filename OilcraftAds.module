@@ -1,0 +1,24 @@
+#!name=Oilcraft 视频净化
+#!desc=Oilcraft（瓜子系换皮）视频 App 去广告：开屏/弹窗/横幅/播放页/评论区/悬浮广告
+#!author=浮浮酱（基于 HAR 抓包分析）
+#!note=广告接口加密，采用 reject-dict 直接拦截返回空 JSON，无需解密
+#!updated=2026-09-19
+
+[Rule]
+# 广告接口直接拒绝（返回空 JSON，App 无法解析则跳过广告）
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/activityInfo$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/barsPlayAdInfo$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/barsUserAdInfo$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/noticeInfo$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/playAdInfo$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/skitAdInfo$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/splashInfo$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Ad\/vajraInfo$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/ad\/config$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Config\/getVestPkgGuide$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/IndexList\/homeFloatAd$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/IndexPlay\/vodAdvertisement$",REJECT-DICT
+URL-REGEX,"^https:\/\/(api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Resource\/CommentAd\/show$",REJECT-DICT
+
+[MITM]
+hostname = %APPEND% api.7gmsut2m.com, api.gq89em.com, api.r2uhs2.com, api.xkpcth.com, haiwaiapi.1fc8ab0.com, rg.w57cy8y.com, sdapi.gmcztd.com, www.emw5es6.com
