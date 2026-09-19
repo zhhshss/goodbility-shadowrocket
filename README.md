@@ -1,6 +1,8 @@
 # goodbility-shadowrocket
 
-墨鱼（@ddgksf2013）脚本的 Shadowrocket（小火箭）本地化适配仓库。
+墨鱼（@ddgksf2013）VIP 解锁脚本的 Shadowrocket（小火箭）本地化仓库。
+
+其中 `goodbility.vip.js` 做了 Shadowrocket 环境适配，其余脚本经沙箱验证均为零改动原生兼容（YAGNI：不需要的适配一行都不加）。
 
 - 原作者：[@ddgksf2013](https://t.me/ddgksf2021)
 - 脚本仅供学习交流使用，禁止转载售卖。
@@ -38,7 +40,37 @@ hostname = %APPEND% isi.csan.*, notability.com
 Shadowrocket 提供与 Surge 兼容的 `$httpClient` / `$persistentStore` / `$notification` API，
 其余分支无需改动，同时已回归验证 Surge / Quantumult X 环境不受影响。
 
-## 二、哔哩哔哩繁体 CC 字幕转简体
+## 二、BuyiTunes 多合一解锁
+
+- 原脚本：https://ddgksf2013.top/scripts/buyitunes.vip.js
+- 仅用 `$response.body` / `$done()`，Shadowrocket 原生兼容，**零改动收录**
+- ⚠️ 注意：使用此脚本会导致 App Store 无法切换账户（需切换时先关闭该脚本/MITM）
+- 解锁列表：https://appraven.net/collection/77331175
+
+```ini
+[Script]
+buyitunes = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$,script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/buyitunes.vip.js,requires-body=true
+
+[MITM]
+hostname = %APPEND% buy.itunes.apple.com
+```
+
+## 三、RevenueCat 多合一解锁
+
+- 原脚本：https://ddgksf2013.top/scripts/revenuecat.vip.js
+- 脚本内部已含 `$rocket` 环境判断，Shadowrocket 原生兼容，**零改动收录**
+- 解锁列表：https://appraven.net/collection/77299969
+
+```ini
+[Script]
+revenuecat_response = type=http-response,pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/[^/]+$),script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/revenuecat.vip.js,requires-body=true
+revenuecat_header = type=http-request,pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts|subscribers),script-path=https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/deleteHeader.js
+
+[MITM]
+hostname = %APPEND% api.revenuecat.com, api.rc-backup.com
+```
+
+## 四、哔哩哔哩繁体 CC 字幕转简体
 
 - 原脚本：https://raw.githubusercontent.com/ddgksf2013/Scripts/refs/heads/master/bilibili_cc.js
 - 原重写：https://raw.githubusercontent.com/ddgksf2013/Rewrite/refs/heads/master/Function/Bilibili_CC.conf
@@ -53,6 +85,18 @@ bilibili_cc = type=http-response,pattern=^https?:\/\/.*\.hdslb\.com\/bfs\/subtit
 [MITM]
 hostname = %APPEND% aisubtitle.hdslb.com, i0.hdslb.com
 ```
+
+## 沙箱验证记录
+
+全部在 Node 模拟环境（`$environment`+`$httpClient`+`$rocket` / `$task`）中验证通过：
+
+| 脚本 | Shadowrocket | Quantumult X | 改动量 |
+| --- | --- | --- | --- |
+| `goodbility.vip.js` | PASS（回执改写含 entitlements） | PASS（回归） | Env 类 +`isShadowrocket()` |
+| `deleteHeader.js` | PASS | PASS | 零改动 |
+| `bilibili_cc.js` | PASS（繁转简） | — | 零改动 |
+| `buyitunes.vip.js` | PASS（expires_date→2099） | PASS | 零改动 |
+| `revenuecat.vip.js` | PASS（entitlements 注入） | PASS | 零改动 |
 
 ## 免责声明
 
