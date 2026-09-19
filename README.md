@@ -73,17 +73,23 @@ hostname = %APPEND% api.revenuecat.com, api.rc-backup.com
 ## 四、瓜子视频净化（去广告）
 
 - 原配置：https://ddgksf2013.top/rewrite/GuaZiVideoAds.conf （QX `jsonjq-response-body` 格式）
-- 本仓库文件：`GuaZiVideoAds.shadowrocket.conf` —— 已转换为 Shadowrocket `[Body Rewrite]` 的 `http-response-jq` 格式
+- 模块文件：`GuaZiVideoAds.module` —— 已转换为 Shadowrocket 模块格式（`[Body Rewrite]` 的 `http-response-jq`）
 - 功能：底栏仅保留首页和我的、去独立广告/首页悬浮/评论区/播放页跑马灯广告
-- 用法：Shadowrocket → 配置 → 编辑纯文本，将该文件内容追加进去（或复制 `[Body Rewrite]` 与 `[MITM]` 两段），开启 HTTPS 解密
 
-```ini
-[Body Rewrite]
-# 共 5 条 http-response-jq 规则，详见 GuaZiVideoAds.shadowrocket.conf
+### 模块安装（推荐，可自动更新）
 
-[MITM]
-hostname = %APPEND% api.mxtxqe.com, api.sef5w7.com, sdapi.u4gdp3.com, ...（共 24 个域名，详见文件）
+1. Shadowrocket → 配置 → 模块 → 右上角「+」（或「添加模块」）
+2. 粘贴模块 URL：
+
 ```
+https://raw.githubusercontent.com/zhhshss/goodbility-shadowrocket/main/GuaZiVideoAds.module
+```
+
+3. 保存后开启该模块，并确保「HTTPS 解密」已开启且证书已信任
+
+### 手动粘贴（备选）
+
+打开 `GuaZiVideoAds.module`，复制 `[Body Rewrite]` 与 `[MITM]` 两段到配置文件的纯文本编辑中。
 
 ## 五、哔哩哔哩繁体 CC 字幕转简体
 
@@ -112,7 +118,7 @@ hostname = %APPEND% aisubtitle.hdslb.com, i0.hdslb.com
 | `bilibili_cc.js` | PASS（繁转简） | — | 零改动 |
 | `buyitunes.vip.js` | PASS（expires_date→2099） | PASS | 零改动 |
 | `revenuecat.vip.js` | PASS（entitlements 注入） | PASS | 零改动 |
-| `GuaZiVideoAds.shadowrocket.conf` | jq 表达式语法校验 PASS | — | QX→SR 格式转换 |
+| `GuaZiVideoAds.module` | jq 表达式语法校验 PASS | — | QX→SR 模块格式转换 |
 
 ## 免责声明
 

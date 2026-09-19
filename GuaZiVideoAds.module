@@ -1,10 +1,10 @@
-// ==UserScript==
-// @ScriptName        瓜子净化[墨鱼版]（Shadowrocket 版）
-// @Author            @ddgksf2013
-// @Shadowrocket      由浮浮酱转换为 Shadowrocket [Body Rewrite] 格式
-// @OriginalURL       https://ddgksf2013.top/rewrite/GuaZiVideoAds.conf
-// @UpdateTime        2026-09-18（跟随原版 V1.0.5）
-// ==UserScript==
+#!name=瓜子净化[墨鱼版]
+#!desc=瓜子视频去广告：底栏仅保留首页和我的、去独立广告/首页悬浮/评论区/播放页跑马灯广告
+#!author=ddgksf2013
+#!homepage=https://t.me/ddgksf2021
+#!original=https://ddgksf2013.top/rewrite/GuaZiVideoAds.conf
+#!updated=2026-09-18 V1.0.5
+#!note=由浮浮酱转换为 Shadowrocket 模块（[Body Rewrite] http-response-jq），需开启 HTTPS 解密
 
 [Body Rewrite]
 # > 底栏仅保留首页和我的
