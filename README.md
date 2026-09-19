@@ -70,7 +70,22 @@ revenuecat_header = type=http-request,pattern=^https:\/\/api\.(revenuecat|rc-bac
 hostname = %APPEND% api.revenuecat.com, api.rc-backup.com
 ```
 
-## 四、哔哩哔哩繁体 CC 字幕转简体
+## 四、瓜子视频净化（去广告）
+
+- 原配置：https://ddgksf2013.top/rewrite/GuaZiVideoAds.conf （QX `jsonjq-response-body` 格式）
+- 本仓库文件：`GuaZiVideoAds.shadowrocket.conf` —— 已转换为 Shadowrocket `[Body Rewrite]` 的 `http-response-jq` 格式
+- 功能：底栏仅保留首页和我的、去独立广告/首页悬浮/评论区/播放页跑马灯广告
+- 用法：Shadowrocket → 配置 → 编辑纯文本，将该文件内容追加进去（或复制 `[Body Rewrite]` 与 `[MITM]` 两段），开启 HTTPS 解密
+
+```ini
+[Body Rewrite]
+# 共 5 条 http-response-jq 规则，详见 GuaZiVideoAds.shadowrocket.conf
+
+[MITM]
+hostname = %APPEND% api.mxtxqe.com, api.sef5w7.com, sdapi.u4gdp3.com, ...（共 24 个域名，详见文件）
+```
+
+## 五、哔哩哔哩繁体 CC 字幕转简体
 
 - 原脚本：https://raw.githubusercontent.com/ddgksf2013/Scripts/refs/heads/master/bilibili_cc.js
 - 原重写：https://raw.githubusercontent.com/ddgksf2013/Rewrite/refs/heads/master/Function/Bilibili_CC.conf
@@ -97,6 +112,7 @@ hostname = %APPEND% aisubtitle.hdslb.com, i0.hdslb.com
 | `bilibili_cc.js` | PASS（繁转简） | — | 零改动 |
 | `buyitunes.vip.js` | PASS（expires_date→2099） | PASS | 零改动 |
 | `revenuecat.vip.js` | PASS（entitlements 注入） | PASS | 零改动 |
+| `GuaZiVideoAds.shadowrocket.conf` | jq 表达式语法校验 PASS | — | QX→SR 格式转换 |
 
 ## 免责声明
 
